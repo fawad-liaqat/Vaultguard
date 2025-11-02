@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+def render_with_custom_css(template_name, **context):
+    context['custom_css'] = url_for('static', filename='custom.css')
+    return render_template(template_name, **context)
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -145,7 +148,7 @@ def allowed_file(filename):
 def index():
     if 'user_id' in session:
         return redirect(url_for('dashboard'))
-    return render_template('index.html')
+    return render_with_custom_css('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 @limiter.limit("5 per hour")
@@ -161,24 +164,24 @@ def register():
             
             if not username or len(username) < 3:
                 flash('Username must be at least 3 characters long', 'danger')
-                return render_template('register.html')
+                return render_with_custom_css('register.html')
             
             if len(username) > 50:
                 flash('Username is too long', 'danger')
-                return render_template('register.html')
+                return render_with_custom_css('register.html')
             
             if not validate_email(email):
                 flash('Invalid email format', 'danger')
-                return render_template('register.html')
+                return render_with_custom_css('register.html')
             
             if password != confirm_password:
                 flash('Passwords do not match', 'danger')
-                return render_template('register.html')
+                return render_with_custom_css('register.html')
             
             is_valid, message = validate_password(password)
             if not is_valid:
                 flash(message, 'danger')
-                return render_template('register.html')
+                return render_with_custom_css('register.html')
             
             conn = sqlite3.connect('fintech.db')
             c = conn.cursor()
@@ -187,7 +190,7 @@ def register():
                 conn.close()
                 flash('Username or email already exists', 'danger')
                 log_audit(None, username, 'REGISTER_ATTEMPT', 'FAILED', 'Duplicate username/email')
-                return render_template('register.html')
+                return render_with_custom_css('register.html')
             
             password_hash = generate_password_hash(password, method='pbkdf2:sha256')
             c.execute('''INSERT INTO users (username, email, password_hash, full_name, phone)
@@ -204,9 +207,9 @@ def register():
         except Exception as e:
             app.logger.error(f'Registration error: {str(e)}')
             flash('An error occurred during registration', 'danger')
-            return render_template('register.html')
+            return render_with_custom_css('register.html')
     
-    return render_template('register.html')
+    return render_with_custom_css('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 @limiter.limit("10 per hour")

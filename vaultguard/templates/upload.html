@@ -1,6 +1,5 @@
-{% extends "base.html" %}
-{% block title %}Upload File · VaultGuard{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Upload File · VaultGuard{% endblock
+%} {% block content %}
 <div class="row justify-content-center">
   <div class="col-md-6">
     <div class="card">
@@ -8,15 +7,29 @@
         <h4 class="mb-0"><i class="bi bi-cloud-upload me-2"></i>Upload File</h4>
       </div>
       <div class="card-body p-4">
-        <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+        <form
+          method="POST"
+          action="{{ url_for('upload') }}"
+          enctype="multipart/form-data"
+        >
           <div class="mb-3">
             <label class="form-label" for="file">Select File *</label>
-            <input class="form-control" id="file" name="file" type="file" required>
-            <div class="form-text">Allowed: TXT, PDF, PNG, JPG, JPEG, GIF (Max: 2MB)</div>
+            <input
+              class="form-control"
+              id="file"
+              name="file"
+              type="file"
+              required
+            />
+            <div class="form-text">
+              Allowed: TXT, PDF, PNG, JPG, JPEG, GIF (Max: 2MB)
+            </div>
           </div>
 
           <div class="alert alert-warning">
-            <h6 class="mb-2"><i class="bi bi-shield-exclamation me-1"></i>Upload Policy</h6>
+            <h6 class="mb-2">
+              <i class="bi bi-shield-exclamation me-1"></i>Upload Policy
+            </h6>
             <ul class="mb-0">
               <li>Only approved file types</li>
               <li>Max size 2MB</li>
@@ -26,8 +39,12 @@
           </div>
 
           <div class="d-grid gap-2">
-            <button class="btn btn-primary" type="submit"><i class="bi bi-upload me-1"></i>Upload</button>
-            <a class="btn btn-outline-primary" href="{{ url_for('dashboard') }}"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+            <button class="btn btn-primary" type="submit">
+              <i class="bi bi-upload me-1"></i>Upload
+            </button>
+            <a class="btn btn-outline-primary" href="{{ url_for('dashboard') }}"
+              ><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a
+            >
           </div>
         </form>
       </div>
@@ -35,18 +52,30 @@
 
     <div class="card mt-4">
       <div class="card-header">
-        <h6 class="mb-0"><i class="bi bi-file-earmark-check me-2"></i>Allowed Types</h6>
+        <h6 class="mb-0">
+          <i class="bi bi-file-earmark-check me-2"></i>Allowed Types
+        </h6>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-6">
-            <p class="mb-2"><i class="bi bi-file-text text-primary me-1"></i>Text (.txt)</p>
-            <p class="mb-2"><i class="bi bi-file-pdf text-danger me-1"></i>PDF (.pdf)</p>
-            <p class="mb-0"><i class="bi bi-file-image text-info me-1"></i>PNG (.png)</p>
+            <p class="mb-2">
+              <i class="bi bi-file-text text-primary me-1"></i>Text (.txt)
+            </p>
+            <p class="mb-2">
+              <i class="bi bi-file-pdf text-danger me-1"></i>PDF (.pdf)
+            </p>
+            <p class="mb-0">
+              <i class="bi bi-file-image text-info me-1"></i>PNG (.png)
+            </p>
           </div>
           <div class="col-6">
-            <p class="mb-2"><i class="bi bi-file-image text-info me-1"></i>JPEG (.jpg, .jpeg)</p>
-            <p class="mb-0"><i class="bi bi-file-image text-info me-1"></i>GIF (.gif)</p>
+            <p class="mb-2">
+              <i class="bi bi-file-image text-info me-1"></i>JPEG (.jpg, .jpeg)
+            </p>
+            <p class="mb-0">
+              <i class="bi bi-file-image text-info me-1"></i>GIF (.gif)
+            </p>
           </div>
         </div>
       </div>
@@ -54,7 +83,9 @@
 
     <div class="card mt-4">
       <div class="card-header">
-        <h6 class="mb-0 text-danger"><i class="bi bi-x-circle me-2"></i>Blocked Types</h6>
+        <h6 class="mb-0 text-danger">
+          <i class="bi bi-x-circle me-2"></i>Blocked Types
+        </h6>
       </div>
       <div class="card-body">
         <p class="mb-1">Not allowed:</p>
@@ -70,18 +101,23 @@
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script>
-  document.getElementById('file').addEventListener('change', function () {
+  document.getElementById("file").addEventListener("change", function () {
     const f = this.files[0];
     if (!f) return;
     const max = 2 * 1024 * 1024;
-    if (f.size > max) { alert('File is too large (max 2MB).'); this.value=''; return; }
-    const allowed = ['txt','pdf','png','jpg','jpeg','gif'];
-    const ext = f.name.toLowerCase().split('.').pop();
-    if (!allowed.includes(ext)) { alert('Invalid file type: ' + ext); this.value=''; }
+    if (f.size > max) {
+      alert("File is too large (max 2MB).");
+      this.value = "";
+      return;
+    }
+    const allowed = ["txt", "pdf", "png", "jpg", "jpeg", "gif"];
+    const ext = f.name.toLowerCase().split(".").pop();
+    if (!allowed.includes(ext)) {
+      alert("Invalid file type: " + ext);
+      this.value = "";
+    }
   });
 </script>
 {% endblock %}
