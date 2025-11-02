@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Secure FinTech App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="bi bi-person-circle"></i> User Profile</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('profile') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" 
+                               value="{{ user[0] }}" disabled>
+                        <div class="form-text">Username cannot be changed</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               value="{{ user[1] }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" 
+                               value="{{ user[2] if user[2] else '' }}" maxlength="100">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" 
+                               value="{{ user[3] if user[3] else '' }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Account Created</label>
+                        <input type="text" class="form-control" value="{{ user[4] }}" disabled>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> 
+                        All profile updates are validated and logged for security purposes.
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Update Profile
+                        </button>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-dark text-white">
+                <h5><i class="bi bi-shield-lock"></i> Security Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Password Security:</strong> Your password is hashed using PBKDF2-SHA256</p>
+                <p><strong>Session Security:</strong> Your session expires after 15 minutes of inactivity</p>
+                <p><strong>Data Protection:</strong> All sensitive data is encrypted at rest</p>
+                <p class="mb-0"><strong>Audit Trail:</strong> All profile changes are logged</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

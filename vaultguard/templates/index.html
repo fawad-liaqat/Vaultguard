@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header text-center py-4">
+                <h2><i class="bi bi-shield-lock-fill"></i> Welcome to SecureFinTech</h2>
+                <p class="mb-0">Your Secure Financial Management Platform</p>
+            </div>
+            <div class="card-body p-5">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="text-center p-4 bg-light rounded">
+                            <i class="bi bi-lock-fill text-primary" style="font-size: 3rem;"></i>
+                            <h4 class="mt-3">Bank-Grade Security</h4>
+                            <p class="text-muted">Your data is protected with industry-standard encryption</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="text-center p-4 bg-light rounded">
+                            <i class="bi bi-graph-up-arrow text-success" style="font-size: 3rem;"></i>
+                            <h4 class="mt-3">Transaction Management</h4>
+                            <p class="text-muted">Easily manage deposits, withdrawals, and transfers</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="text-center p-4 bg-light rounded">
+                            <i class="bi bi-file-earmark-lock text-warning" style="font-size: 3rem;"></i>
+                            <h4 class="mt-3">Data Encryption</h4>
+                            <p class="text-muted">All sensitive data is encrypted at rest and in transit</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="text-center p-4 bg-light rounded">
+                            <i class="bi bi-clock-history text-info" style="font-size: 3rem;"></i>
+                            <h4 class="mt-3">Audit Logging</h4>
+                            <p class="text-muted">Complete activity tracking for security</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <h3>Get Started Today</h3>
+                    <p class="text-muted mb-4">Join our secure platform</p>
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="bi bi-person-plus"></i> Create Account
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Error {{ error_code }} · VaultGuard{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header text-center py-4">
+        <h3 class="mb-0 text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>Error {{ error_code }}</h3>
+      </div>
+      <div class="card-body p-5 text-center">
+        <h5 class="mb-3">{{ error_message }}</h5>
+
+        {% if error_code == 404 %}
+          <p class="text-muted">The page you are looking for could not be found.</p>
+        {% elif error_code == 403 %}
+          <p class="text-muted">You don't have permission to access this resource.</p>
+        {% elif error_code == 429 %}
+          <p class="text-muted">Too many requests. Please wait and try again.</p>
+        {% elif error_code == 500 %}
+          <p class="text-muted">Something went wrong on our end. We're working to fix it.</p>
+        {% else %}
+          <p class="text-muted">An error occurred while processing your request.</p>
+        {% endif %}
+
+        <div class="alert alert-info mt-4 text-start">
+          <i class="bi bi-shield-lock me-1"></i>
+          <strong>Security:</strong> Detailed error info is suppressed to prevent information leakage.
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+          {% if session.get('username') %}
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary"><i class="bi bi-house me-1"></i>Go to Dashboard</a>
+          {% else %}
+            <a href="{{ url_for('index') }}" class="btn btn-primary"><i class="bi bi-house me-1"></i>Go to Home</a>
+          {% endif %}
+          <button onclick="history.back()" class="btn btn-outline-primary"><i class="bi bi-arrow-left me-1"></i>Go Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

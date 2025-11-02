@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Audit Logs · VaultGuard{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h4 class="mb-0"><i class="bi bi-list-check me-2"></i>Audit Logs</h4>
+        <span class="text-muted small">Only you can view your activity</span>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info mb-4">
+          <i class="bi bi-shield-lock me-1"></i>
+          <strong>Security:</strong> Authentication, data operations, and file events are tracked with timestamp, IP, and user agent.
+        </div>
+
+        {% if logs %}
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Action</th>
+                  <th>Status</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for log in logs %}
+                <tr>
+                  <td class="text-nowrap">{{ log[3] }}</td>
+                  <td>
+                    <span class="badge
+                      {% if 'LOGIN' in log[0] %} bg-primary
+                      {% elif 'LOGOUT' in log[0] %} bg-secondary
+                      {% elif 'REGISTER' in log[0] %} bg-success
+                      {% elif 'TRANSACTION' in log[0] %} bg-info
+                      {% elif 'PROFILE' in log[0] %} bg-warning
+                      {% elif 'FILE' in log[0] %} bg-dark
+                      {% else %} bg-primary{% endif %}">
+                      {{ log[0] }}
+                    </span>
+                  </td>
+                  <td>
+                    {% if log[1] == 'SUCCESS' %}
+                      <span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>{{ log[1] }}</span>
+                    {% else %}
+                      <span class="text-danger"><i class="bi bi-x-circle-fill me-1"></i>{{ log[1] }}</span>
+                    {% endif %}
+                  </td>
+                  <td class="text-truncate" style="max-width:480px">{{ log[2] if log[2] else '—' }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <p class="text-muted small mb-0"><i class="bi bi-clock-history me-1"></i>Showing last 50 entries</p>
+        {% else %}
+          <div class="alert alert-warning mb-0">
+            <i class="bi bi-exclamation-triangle me-1"></i>No activity logs found.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h6 class="mb-0"><i class="bi bi-shield-check me-2"></i>What We Log</h6>
+      </div>
+      <div class="card-body">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <h6>Authentication</h6>
+            <ul class="mb-4">
+              <li>Login/Logout (success & failures)</li>
+              <li>Registration attempts</li>
+              <li>Account lockouts</li>
+            </ul>
+            <h6>Operations</h6>
+            <ul class="mb-0">
+              <li>Transaction creation</li>
+              <li>Profile updates</li>
+              <li>File uploads</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6>Metadata Stored</h6>
+            <ul class="mb-0">
+              <li>Timestamp, user id/username</li>
+              <li>IP address & user agent</li>
+              <li>Action & status</li>
+              <li>Additional details (when relevant)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-2">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

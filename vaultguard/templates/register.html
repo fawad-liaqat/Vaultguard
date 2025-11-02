@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Secure FinTech App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center py-3">
+                <h3><i class="bi bi-person-plus-fill"></i> Create Your Account</h3>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('register') }}" id="registerForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username *</label>
+                        <input type="text" class="form-control" id="username" name="username" 
+                               required minlength="3" maxlength="50">
+                        <div class="form-text">3-50 characters, letters, numbers, and underscores only</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" maxlength="100">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password *</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="form-text">
+                            Password must contain:
+                            <ul class="mb-0">
+                                <li>At least 8 characters</li>
+                                <li>One uppercase letter (A-Z)</li>
+                                <li>One lowercase letter (a-z)</li>
+                                <li>One digit (0-9)</li>
+                                <li>One special character (!@#$%...)</li>
+                            </ul>
+                        </div>
+                        <div id="passwordStrength" class="mt-2"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password *</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        <div id="passwordMatch" class="mt-1"></div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Register
+                        </button>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-secondary">
+                            Already have an account? Login
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('password').addEventListener('input', function() {
+        const password = this.value;
+        const strengthDiv = document.getElementById('passwordStrength');
+        
+        let strength = 0;
+        let feedback = [];
+        
+        if (password.length >= 8) strength++;
+        else feedback.push('At least 8 characters');
+        
+        if (/[A-Z]/.test(password)) strength++;
+        else feedback.push('One uppercase letter');
+        
+        if (/[a-z]/.test(password)) strength++;
+        else feedback.push('One lowercase letter');
+        
+        if (/\d/.test(password)) strength++;
+        else feedback.push('One digit');
+        
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+        else feedback.push('One special character');
+        
+        let strengthText = '';
+        
+        if (strength === 5) {
+            strengthText = '<span class="text-success"><i class="bi bi-check-circle-fill"></i> Strong password!</span>';
+        } else if (strength >= 3) {
+            strengthText = '<span class="text-warning"><i class="bi bi-exclamation-triangle-fill"></i> Medium strength. Missing: ' + feedback.join(', ') + '</span>';
+        } else {
+            strengthText = '<span class="text-danger"><i class="bi bi-x-circle-fill"></i> Weak password. Missing: ' + feedback.join(', ') + '</span>';
+        }
+        
+        strengthDiv.innerHTML = strengthText;
+    });
+    
+    document.getElementById('confirm_password').addEventListener('input', function() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = this.value;
+        const matchDiv = document.getElementById('passwordMatch');
+        
+        if (confirmPassword === '') {
+            matchDiv.innerHTML = '';
+        } else if (password === confirmPassword) {
+            matchDiv.innerHTML = '<small class="text-success"><i class="bi bi-check-circle-fill"></i> Passwords match</small>';
+        } else {
+            matchDiv.innerHTML = '<small class="text-danger"><i class="bi bi-x-circle-fill"></i> Passwords do not match</small>';
+        }
+    });
+</script>
+{% endblock %}
